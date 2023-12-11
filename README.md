@@ -1,4 +1,4 @@
-# Project Name
+# Corsac KMS
 
 This codebase contains the implementation of the Corsac KMS API.
 
