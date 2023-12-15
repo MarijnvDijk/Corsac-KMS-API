@@ -17,7 +17,7 @@ To install and set up the project, follow these steps:
 2. Install the required dependencies by running `npm install`.
 3. Configure the environment variables.
     - The ENC_KEY should be 32 random bytes in hexadecimal format (`64 * [a-z0-9]`).
-        - `node -p "console.log(crypto.randomBytes(32).toString('hex'))"`
+        - `node -p "crypto.randomBytes(32).toString('hex')"`
 4. Generate an rsa keypair for JWT signing.
     - Run `mkdir certificates`
     - Run `openssl genrsa -out certificates/key.pem 4096`
