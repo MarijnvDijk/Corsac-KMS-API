@@ -106,3 +106,6 @@ dist
 
 # Secrets
 certificates/
+
+# development
+package-lock.json

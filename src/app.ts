@@ -57,7 +57,7 @@ class App {
         getToken: function getFromCookie(request: any) {
           return request.cookies.session;
         }
-      }).unless({ path: ["/v1/auth/login"] })
+      }).unless({ path: ["/api/v1/auth/login"] })
     );
   }
 
