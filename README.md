@@ -35,7 +35,7 @@ To use the API, follow these guidelines:
 
 1. Make HTTP requests to the appropriate endpoints.
 2. Include the required headers and parameters.
-#3. Refer to the API documentation for detailed information on each endpoint.
+3. Refer to the API documentation for detailed information on each endpoint.
 
 ## Contributing
 
