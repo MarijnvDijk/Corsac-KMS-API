@@ -1,4 +1,5 @@
-import { Request, Response, Router, request, response } from 'express';
+import { Response, Router } from 'express';
+import { Request } from 'express-jwt';
 
 import Dtos from '../data/enums/DtoEnum';
 import IController from '../interfaces/IController';
@@ -79,6 +80,10 @@ class UserController implements IController {
     private deleteUser = async (request: Request, response: Response) => {
         try {
             const {id} = request.params;
+
+            if (id == request.auth.id) {
+                return OperationException.Forbidden(response, {"error": "Invalid operation, cannot delete your own account"})
+            }
 
             if (!isNaN(parseInt(id))) {
                 const success = await this.userService.deleteUser(parseInt(id));

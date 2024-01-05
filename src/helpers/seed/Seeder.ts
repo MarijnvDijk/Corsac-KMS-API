@@ -56,7 +56,7 @@ class Seeder {
                 let lastName = faker.person.lastName();
                 let username = faker.internet.userName({firstName, lastName});
 
-                let information = await this.userRepository.addUser({firstName, lastName, username});
+                let information = await this.userRepository.addUserLegacy({firstName, lastName, username});
                 userIds.push(information.res.insertId)
                 progress.increment()
             }
@@ -69,7 +69,8 @@ class Seeder {
     private configureAuthentication = async (userIds: number[], progress: any) => {
         userIds.forEach(async (userId: number) => {
             let hash = bcrypt.hashSync("Password123!", 10);
-            let OTPSecret = authenticator.generateSecret();
+            // let OTPSecret = authenticator.generateSecret();
+            let OTPSecret = process.env.DEV_OTP_SECRET;
             let enc = this.cryptoHelper.encrypt(OTPSecret);
             let user = {id: userId, password: hash, OTPSecret: `{"data":"${enc.data}","iv":"${enc.iv}"}`}
             await this.authRepository.addUser(user);

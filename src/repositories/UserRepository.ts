@@ -43,7 +43,7 @@ export default class UserRepository extends BaseCrudRepository {
         });
     }
 
-    async addUser(user: {firstName: string, lastName: string, username: string}): Promise<{user: Partial<UserDto>, res: any}>|undefined {
+    async addUser(user: {firstName: string, lastName: string, username: string}, initializationToken: {data: string, iv: string}): Promise<{user: Partial<UserDto>, res: any}>|undefined {
         return new Promise((resolve, reject) => {
             this.db.getPool().getConnection((err, connection) => {
                 if (err) reject(err);
@@ -51,10 +51,39 @@ export default class UserRepository extends BaseCrudRepository {
                 connection.query(
                     `INSERT INTO ${this.tableNames[0]}(first_name, last_name, username) VALUES(?, ?, ?)`,
                     [user.firstName, user.lastName, user.username],
-                    (err: Error, res: any) => {
+                    (err: Error, res: any, fields: any) => {
+                        if (err) {
+                            connection.release();
+                            reject(err)
+                        }
+
+                        connection.query(
+                            `INSERT INTO ${this.tableNames[1]}(user_id, initialization_token) VALUES(?, ?)`,
+                            [res.insertId, JSON.stringify(initializationToken)],
+                            (err: Error, res: any) => {
+                                connection.release();
+                                if (err) reject(err);
+                                else resolve({user, res});
+                            }
+                        )
+                    }
+                );
+            });
+        });
+    }
+
+    async addUserLegacy(user: {firstName: string, lastName: string, username: string}): Promise<{user: Partial<UserDto>, res: any}>|undefined {
+        return new Promise((resolve, reject) => {
+            this.db.getPool().getConnection((err, connection) => {
+                if (err) reject(err);
+
+                connection.query(
+                    `INSERT INTO ${this.tableNames[0]}(first_name, last_name, username) VALUES(?, ?, ?)`,
+                    [user.firstName, user.lastName, user.username],
+                    (err: Error, res: any, fields: any) => {
                         connection.release();
                         if (err) reject(err)
-                        resolve({user, res});
+                        else resolve({user, res});
                     }
                 );
             });

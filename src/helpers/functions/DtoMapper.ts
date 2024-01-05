@@ -1,5 +1,6 @@
 import Dtos from "../../data/enums/DtoEnum";
 import UserDto from "../../data/DataTransferObjects/UserDto";
+import DeviceDto from "../../data/DataTransferObjects/DeviceDto";
 // import AuthDto from "../../data/DataTransferObjects/AuthDto";
 
 const mapToDto = (data: any, type: Dtos): object => {
@@ -13,6 +14,16 @@ const mapToDto = (data: any, type: Dtos): object => {
                 return users;
             }
             return new UserDto(data);
+        }
+        case (Dtos.DeviceDto): {
+            if (typeof data.length != 'undefined') {
+                let devices: DeviceDto[] = [];
+                data.forEach((device: object) => {
+                    devices.push(new DeviceDto(device));
+                });
+                return devices;
+            }
+            return new DeviceDto(data);
         }
     }
 }

@@ -7,8 +7,9 @@ export default class UserDto {
     modifiedAt: EpochTimeStamp;
     password: string;
     OTPSecret: any;
+    initializationToken: string;
     authenticationAttempts: number;
-    enabled: boolean;
+    locked: boolean;
 
     constructor(data: any) {
         this.id = data.id;
@@ -19,7 +20,8 @@ export default class UserDto {
         this.modifiedAt = data.modifiedAt;
         this.password = data.password;
         this.OTPSecret = data.OTPSecret;
+        this.initializationToken = data.initializationToken;
         this.authenticationAttempts = data.authenticationAttempts;
-        this.enabled = data.enabled;
+        this.locked = data.enabled;
     }
 }

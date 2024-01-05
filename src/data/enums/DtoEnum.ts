@@ -1,6 +1,8 @@
 enum Dtos {
     UserDto = 'UserDto',
-    AuthDto = 'AuthDto'
+    AuthDto = 'AuthDto',
+    DeviceDto = 'DeviceDto',
+    ConfigDto = 'ConfigDto'
 }
 
 export default Dtos;

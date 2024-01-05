@@ -15,6 +15,13 @@ class OperationException {
         return response.status(401).json(message);
       }
 
+      public static Forbidden(response: Response, customMessage?: {error: string}) {
+        let message = {"error": "Sorry, but you are not allowed to access this resource"};
+        if (customMessage) message = customMessage;
+
+        return response.status(403).json(message);
+      }
+
       public static ServerError(response: Response, customMessage?: {error: string}) {
         let message = {"error": "an unexpected server error occured and the operation was not successful"};
         if (customMessage) message = customMessage;
@@ -37,8 +44,10 @@ class OperationException {
       public static InvalidParameters(
         response: Response,
         parameters: Array<string>,
+        customMessage?: {error: string}
       ) {
         let message: {error: string, parameters: string[]} = {"error":"Invalid parameter(s)", "parameters":[]};
+        if (customMessage) message.error = customMessage.error;
 
         parameters.forEach((param) => {
             message.parameters.push(param);
@@ -50,7 +59,8 @@ class OperationException {
 
 enum ExceptionEnum {
     NotFound = 'NotFound',
-    InvalidResult = 'InvalidResult'
+    InvalidResult = 'InvalidResult',
+    Forbidden = 'Forbidden'
 }
 
 export {ExceptionEnum, OperationException};

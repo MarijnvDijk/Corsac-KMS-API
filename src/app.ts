@@ -57,13 +57,13 @@ class App {
         getToken: function getFromCookie(request: any) {
           return request.cookies.session;
         }
-      }).unless({ path: ["/api/v1/auth/login"] })
+      }).unless({ path: ["/api/v1/auth/login", "/api/v1/auth/initialize/credentials", "/api/v1/auth/initialize/2fa"] })
     );
   }
 
   private initializeControllers(controllers: IController[]) {
     controllers.forEach((controller) => {
-      this.app.use('/v1', controller.router);
+      this.app.use('/api/v1', controller.router);
     });
   }
 
